@@ -16,7 +16,7 @@ require_once "arr.php";
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-lg">
         
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#">
+            <a class="navbar-brand d-flex align-items-center" href="index1.php">
                 <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/University_of_Santo_Tomas_seal.svg" alt="logo" width="45" class="me-2">
                 Appdev Movie Booking System
             </a>
@@ -103,7 +103,7 @@ require_once "arr.php";
 
                 <!-- movie 1 -->
                  <div class="col-md-3 mx-4">
-                    <a href="bookingdetails.php?lalaland">
+                    <a href="bookingdetails.php?movie=lalaland">
                     <div class="card h-100 shadow">
                         <img class="card-img-top rounded" src="La_La_Land_(film).png" alt="cardmovie">
                     </div>
@@ -112,9 +112,9 @@ require_once "arr.php";
                  
                 <!-- movie 2 -->
                  <div class="col-md-3 mx-4">
-                    <a href="bookingdetails.php">
+                    <a href="bookingdetails.php?movie=msperegrines">
                     <div class="card h-100 shadow">
-                        <img class="card-img-top rounded" src="La_La_Land_(film).png" alt="cardmovie">
+                        <img class="card-img-top rounded" src="msperegrines.jpg" alt="cardmovie">
                     </div>
                     </a>
                  </div>

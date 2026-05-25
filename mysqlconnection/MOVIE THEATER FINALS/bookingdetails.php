@@ -1,6 +1,13 @@
 <?php
+
 require_once "arr.php";
+
+$movieKey = $_GET['movie'];
+
+$movie = $movies[$movieKey];
+
 ?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -15,7 +22,7 @@ require_once "arr.php";
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-lg">
         
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#">
+            <a class="navbar-brand d-flex align-items-center" href="index1.php">
                 <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/University_of_Santo_Tomas_seal.svg" alt="logo" width="45" class="me-2">
                 Appdev Movie Booking System
             </a>
@@ -90,7 +97,7 @@ require_once "arr.php";
         
     </section>
 
-    <!-- now showing movies -->
+    <!-- display details -->
      <section class="py-3 bg-white">
 
         <div class="container bi-text-left">
@@ -99,15 +106,24 @@ require_once "arr.php";
             <hr>
             <div class="row g-3 justify-content-left">
 
-                <!-- movie 1 -->
                  <div class="col-md-3 mx-4">
-                    <a href="bookingdetails.php">
                     <div class="card h-100 shadow">
-                        <img class="card-img-top rounded" src="La_La_Land_(film).png" alt="cardmovie">
+                        <img class="rounded" src="<?php echo $movie['image'] ?>">
                     </div>
-                    </a>
+                 </div>
+
+                 <div class="col">
+                    <h1 class="mb-4"><?php echo $movie['title'] ?></h1>
+                    <h3 class="mb-3">MTRCB Rating: <?php echo $movie['rating']?></h3>
+                    <h4 class="mb-3">Genre: <?php echo $movie['genre']?></h4>
+
+                    <p><?php echo$movie['description'] ?></p>
                  </div>
                  
+                 <div class="col">
+                    <label for="" class="fw-bold mb-2">Showing Date</label>
+                    <input type="Date" class="form-control">
+                 </div>
 
             </div>
 
