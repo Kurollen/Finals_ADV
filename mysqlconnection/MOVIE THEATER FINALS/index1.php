@@ -17,7 +17,7 @@ require_once "arr.php";
         
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="index1.php">
-                <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/University_of_Santo_Tomas_seal.svg" alt="logo" width="45" class="me-2">
+                <img src="" alt="logo" width="45" class="me-2">
                 Appdev Movie Booking System
             </a>
 
@@ -42,7 +42,7 @@ require_once "arr.php";
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-light" href="register.php">Register</a>
+                        <a class="nav-link text-light" href="register.php">Register/Login</a>
                     </li>
 
                 </ul>
