@@ -105,7 +105,7 @@
                     </label>
 
                     <div class="col">
-                        <input type="text" name="Firstname" id="Firstname"class="form-control" placeholder="Full Name (FN MI, LN )" required>
+                        <input type="text" name="Fullname" id="Fullname"class="form-control" placeholder="Full Name (FN MI, LN )" required>
                     </div>
 
                 </div>
@@ -221,10 +221,10 @@ require_once "dbconnection.php";
 
 
 if (isset($_POST["reg"])) {
-    $fullname = $_POST[''];
-    $email = $_POST[''];
-    $username = $_POST[''];
-    $password = md5($_POST['']);
+    $fullname = $_POST['Fullname'];
+    $email = $_POST['Email'];
+    $username = $_POST['Username'];
+    $password = md5($_POST['Password']);
 
     $otp = rand(000000,999999);
 
