@@ -76,13 +76,18 @@
     </script>
 
     <!-- MAIN CONTAINER -->
-    <div class="container-fluid px-5">
+    <section class="bg-warning text-center p-3 shadow-lg">
+            <div class="display-4 fw-bold">
+                Customer Details
+            </div>
 
-        <div class="bg-warning m-4 mx-auto d-block text-center p-4">
-            <p class="text-center text-black m-0 fs-3">
-                <b>CUSTOMER DETAILS</b>
+            <p class="fw-semibold mt-3">
+                Appdev Finals
             </p>
-        </div>
+        
+    </section>
+    <div class="container-fluid px-5">
+        
 
         <div class="bg-light p-5">
 
@@ -185,7 +190,7 @@
                     </div>
 
                     <div class="col text-center">
-                            <input type="submit" name="login" value="Already Have an Account (Login)" class="btn btn-warning w-75">
+                            <input type="button" onclick="window.location.href='login.php'" value="Already Have an Account (Log In)" class="btn btn-warning w-75">
                     </div>
 
                 </div>
@@ -253,5 +258,7 @@ if (isset($_POST["reg"])) {
     } else {
         echo $conn -> error;
     }
+
 }
+
 ?>
