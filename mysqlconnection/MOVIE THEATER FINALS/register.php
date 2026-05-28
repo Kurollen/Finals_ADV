@@ -218,6 +218,7 @@
 
 <?php
 require_once "dbconnection.php";
+require_once "otpsender.php";
 
 
 if (isset($_POST["reg"])) {
@@ -229,8 +230,8 @@ if (isset($_POST["reg"])) {
     $otp = rand(000000,999999);
 
     //insert query
-    $insertsql = "INSERT INTO user (full_name, roles, email, username, pass) 
-    VALUES ('$fullname', 'customer', '$email', '$username', '$password')";
+    $insertsql = "INSERT INTO user (full_name, roles, email, username, pass, otp, acc_status) 
+    VALUES ('$fullname', 'customer', '$email', '$username', '$password', '$otp', 'Pending')";
     $result = $conn -> query($insertsql);
 
     if ($result == true){
@@ -245,7 +246,7 @@ if (isset($_POST["reg"])) {
             showConfirmButton: false,
             timer: 3000
         }).then(()=>{
-        window.location.href = "otpverification.php"; //pls edit this
+        window.location.href = "otpchecker.php"; //pls edit this
         });
     </script>
     <?php
