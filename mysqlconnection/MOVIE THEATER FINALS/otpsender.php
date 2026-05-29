@@ -17,7 +17,7 @@ function send_verification($fullname, $email, $otp){
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
         $mail->Username   = 'matthew.aguirre.cics@ust.edu.ph'; // Your Gmail
-        $mail->Password   = 'ogrm stov ygau zjsx'; // Your App Password generate app password to allow specific website to use your email and email only. For security
+        $mail->Password   = ''; // Your App Password generate app password to allow specific website to use your email and email only. For security
         $mail->SMTPSecure = 'tls';
         $mail->Port       = 587;
 

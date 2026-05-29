@@ -164,3 +164,64 @@ session_start();
 
 </body>
 </html>
+
+<?php
+require_once "dbconnection.php";
+
+if (isset($_POST['sub'])){
+    $username = $_POST['username'];
+    $pass = md5($_POST['pass']);
+
+    $loginsql = "SELECT * FROM user WHERE username = '".$username."' and pass = '".$pass."' and acc_status = 'Active'";
+    $result = $conn -> query($loginsql);
+
+    //check if there's a match record
+    if ($result->num_rows  == 1) {
+        
+    $fieldname = $result -> fetch_assoc();
+
+    $roles = $fieldname["roles"];
+    $fullname = $fieldname["full_name"];
+    $id = $fieldname["user_id"];
+    // //session variable
+    // $_SESSION["user_type"] = $usertype;
+    // $_SESSION["fullname"] = $firstname." ".$lastname;
+    // $_SESSION["first"] = $firstname;
+    // $_SESSION["image"] = $imagepath;
+    $_SESSION["user_id"] = $id;
+
+    //logs
+    $logssql = "Insert INTO logs (user_id, action, datetime) values('".$_SESSION["user_id"]."','Logged In', NOW())";
+    $conn ->query($logssql);
+
+    //transfer to dashboard based on usertype
+    if ($roles   == "admin") {
+        header("location: admindashboard.php"); //change to admin page php
+    } elseif ($roles == "employee") {
+        ?>
+            <script>
+                window.location.href = "employeedashboard.php"; //change to employee page php
+            </script>
+        <?php
+    } elseif ($roles == "customer"){
+        ?>
+             <script>
+                window.location.href = "index1.php";
+            </script>
+        <?php
+    }
+    } else {    
+?>
+         <script>
+        Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "enghkkkkk invalid sis",
+            showConfirmButton: false,
+            timer: 1500
+        });
+        </script>
+<?php
+    }   
+}
+?>
