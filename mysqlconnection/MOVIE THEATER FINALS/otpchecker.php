@@ -75,6 +75,6 @@ if (isset($_POST['ver'])) {
         </script>
         <?php
     }
-    
+    //pusher delte later
 }
 ?>

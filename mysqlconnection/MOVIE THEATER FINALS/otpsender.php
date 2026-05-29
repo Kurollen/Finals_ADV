@@ -63,5 +63,6 @@ function send_verification($fullname, $email, $otp){
         ";
     }
 }
+//pusher delte later
 ?>
 

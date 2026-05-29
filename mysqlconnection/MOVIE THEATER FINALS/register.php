@@ -260,5 +260,5 @@ if (isset($_POST["reg"])) {
     }
 
 }
-
+//pusher delte later
 ?>
