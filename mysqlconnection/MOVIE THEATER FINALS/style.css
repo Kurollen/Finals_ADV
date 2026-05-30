@@ -22,6 +22,29 @@ nav a:hover {
     transform: scale(1.05);
 }
 
+.card-info {
+    padding: 8px 10px 6px;
+}
+ 
+.card-info .movie-title {
+font-weight: 700;
+font-size: 0.9rem;
+margin-bottom: 2px;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+ 
+.card-info .movie-meta {
+font-size: 0.75rem;
+color: #6c757d;
+margin-bottom: 8px;
+}
+
+img{
+    border-radius: 8px;
+}
+
 body {
   min-height: 100vh;
   display: flex;
