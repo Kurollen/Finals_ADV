@@ -56,7 +56,7 @@ if (isset($_POST['btn_add'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Add Movie | Admin — Movie Booking System</title>
+    <title>Add Movie | Admin/Employee — Movie Booking System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -87,7 +87,7 @@ if (isset($_POST['btn_add'])) {
     <div class="bg-secondary text-white py-2 shadow-lg">
         <div class="container d-flex justify-content-between">
             <span id="date"></span>
-            <span class="badge bg-danger">Admin Panel</span>
+            <span class="badge bg-info">Admin/Employee Panel</span>
         </div>
     </div>
 
@@ -191,7 +191,7 @@ if (isset($_POST['btn_add'])) {
     </section>
 
     <footer class="bg-dark text-white text-center py-3">
-        <p class="mb-0">© Finals Movie Booking System — Admin Panel</p>
+        <p class="mb-0">© Finals Movie Booking System — Admin/Employee Panel</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
