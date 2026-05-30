@@ -196,11 +196,11 @@ if (isset($_POST['sub'])){
 
     //transfer to dashboard based on usertype
     if ($roles   == "admin") {
-        header("location: admindashboard.php"); //change to admin page php
+        header("location: admindview.php"); //change to admin page php
     } elseif ($roles == "employee") {
         ?>
             <script>
-                window.location.href = "employeedashboard.php"; //change to employee page php
+                window.location.href = "employee.php"; //change to employee page php
             </script>
         <?php
     } elseif ($roles == "customer"){

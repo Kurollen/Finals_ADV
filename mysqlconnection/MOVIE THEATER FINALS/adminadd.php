@@ -1,55 +1,4 @@
-<?php
-require_once "dbconnection.php";
 
-if (isset($_POST['btn_add'])) {
-    $title = $_POST['movie_title'];
-    $genre = $_POST['movie_genre'];
-    $duration = $_POST['movie_duration'];
-    $release_date = $_POST['movie_release_date'];
-    $description = $_POST['movie_description'];
-
-    $poster_path = "";
-
-    if (!empty($_FILES['movie_poster']['name'])) {
-
-        if (!is_dir("posters")) {
-            mkdir("posters", 0777, true);
-        }
-
-        $poster_path = "posters/" . basename($_FILES['movie_poster']['name']);
-
-        move_uploaded_file(
-            $_FILES['movie_poster']['tmp_name'],
-            $poster_path
-        );
-    }
-
-    $insertsql = "INSERT INTO movie
-                  (title, genre, duration, release_date, description, movie_poster)
-                  VALUES
-                  ('$title', '$genre', '$duration', '$release_date', '$description', '$poster_path')";
-
-    $result = $conn->query($insertsql);
-
-    if ($result) {
-        ?>
-        <script>
-            Swal.fire({
-                title: "Movie Added!",
-                text: "The movie has been added successfully.",
-                icon: "success",
-                showConfirmButton: false,
-                timer: 1500
-            }).then(() => {
-                window.location.href = "admin_movies.php?success=added";
-            });
-        </script>
-        <?php
-    } else {
-        echo "Database Error: " . $conn->error;
-    }
-}
-?>
 
 <!doctype html>
 <html lang="en">
@@ -204,3 +153,55 @@ if (isset($_POST['btn_add'])) {
     </script>
 </body>
 </html>
+<?php
+require_once "dbconnection.php";
+
+if (isset($_POST['btn_add'])) {
+    $title = $_POST['movie_title'];
+    $genre = $_POST['movie_genre'];
+    $duration = $_POST['movie_duration'];
+    $release_date = $_POST['movie_release_date'];
+    $description = $_POST['movie_description'];
+
+    $poster_path = "";
+
+    if (!empty($_FILES['movie_poster']['name'])) {
+
+        if (!is_dir("posters")) {
+            mkdir("posters", 0777, true);
+        }
+
+        $poster_path = "posters/" . basename($_FILES['movie_poster']['name']);
+
+        move_uploaded_file(
+            $_FILES['movie_poster']['tmp_name'],
+            $poster_path
+        );
+    }
+
+    $insertsql = "INSERT INTO movie
+                  (title, genre, duration, release_date, description, movie_poster)
+                  VALUES
+                  ('$title', '$genre', '$duration', '$release_date', '$description', '$poster_path')";
+
+    $result = $conn->query($insertsql);
+
+    if ($result) {
+        ?>
+        <script>
+            Swal.fire({
+                title: "Movie Added!",
+                text: "The movie has been added successfully.",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500
+            }).then(() => {
+                window.location.href = "adminadd.php?success=added";
+            });
+        </script>
+        <?php
+    } else {
+        echo "Database Error: " . $conn->error;
+    }
+}
+?>
