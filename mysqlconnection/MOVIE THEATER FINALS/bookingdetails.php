@@ -3,6 +3,7 @@ require_once "dbconnection.php";
 
 $movie_id = intval($_GET['movie_id'] ?? 0);
 
+// 1. Fetch Movie Details
 $result = $conn->query("SELECT * FROM movie WHERE movie_id = $movie_id");
 $movie = $result->fetch_assoc();
 
@@ -10,6 +11,14 @@ if (!$movie) {
     header("Location: index1.php");
     exit;
 }
+
+// 2. NEW: Fetch available showtimes for this specific movie, along with theater info
+$showtime_query = "SELECT s.showtime_id, s.show_date, s.show_time, t.theater_name 
+                   FROM showtime s 
+                   JOIN theater t ON s.theater_id = t.theater_id 
+                   WHERE s.movie_id = $movie_id 
+                   ORDER BY s.show_date ASC, s.show_time ASC";
+$showtimes_result = $conn->query($showtime_query);
 ?>
 
 <!doctype html>
@@ -23,7 +32,6 @@ if (!$movie) {
   </head>
   <body>
 
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-lg">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="index1.php">
@@ -54,7 +62,6 @@ if (!$movie) {
         </div>
     </nav>
 
-    <!-- Date bar -->
     <div class="bg-secondary text-white py-2 shadow-lg">
         <div class="container">
             <span id="date"></span>
@@ -70,7 +77,6 @@ if (!$movie) {
         updateDate();
     </script>
 
-    <!-- Page header -->
     <section class="bg-warning text-center p-3 shadow-lg">
         <div class="container py-4">
             <h1 class="display-4 fw-bold">
@@ -82,7 +88,6 @@ if (!$movie) {
         </div>
     </section>
 
-    <!-- Booking Details -->
     <section class="py-3 bg-white">
         <div class="container">
 
@@ -95,12 +100,12 @@ if (!$movie) {
                         <?php if (!empty($movie['movie_poster'])): ?>
                             <img class="rounded" src="<?= htmlspecialchars($movie['movie_poster']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>">
                         <?php else: ?>
-                            <div class="poster-placeholder">🎬</div>
+                            <div class="poster-placeholder text-center p-5 fs-1">🎬</div>
                         <?php endif; ?>
                     </div>
                 </div>
 
-                <div class="col">
+                <div class="col-md-5">
                     <h1 class="mb-4"><?= htmlspecialchars($movie['title']) ?></h1>
                     <h4 class="mb-3">Genre: <?= htmlspecialchars($movie['genre']) ?></h4>
                     <h5 class="mb-3">Duration: <?= htmlspecialchars($movie['duration']) ?> min</h5>
@@ -108,9 +113,35 @@ if (!$movie) {
                     <p><?= htmlspecialchars($movie['description']) ?></p>
                 </div>
 
-                <div class="col">
-                    <label class="fw-bold mb-2">Showing Date</label>
-                    <input type="date" class="form-control">
+                <div class="col-md-3 shadow-sm p-4 bg-light rounded border">
+                    <form action="selectseats.php" method="GET">
+                        <input type="hidden" name="movie_id" value="<?= $movie_id ?>">
+
+                        <div class="mb-4">
+                            <label for="showtime" class="fw-bold mb-2 d-block">Available Schedule</label>
+                            <select id="showtime" name="showtime_id" class="form-control form-select" required>
+                                <option value="" disabled selected>-- Select Date & Time --</option>
+                                
+                                <?php if ($showtimes_result && $showtimes_result->num_rows > 0): ?>
+                                    <?php while ($showtime = $showtimes_result->fetch_assoc()): 
+                                        // Cleanly formatting date and time representations for better UI readability
+                                        $formatted_date = date("M d, Y (D)", strtotime($showtime['show_date']));
+                                        $formatted_time = date("h:i A", strtotime($showtime['show_time']));
+                                    ?>
+                                        <option value="<?= $showtime['showtime_id'] ?>">
+                                            <?= $formatted_date ?> at <?= $formatted_time ?> — <?= htmlspecialchars($showtime['theater_name']) ?>
+                                        </option>
+                                    <?php endwhile; ?>
+                                <?php else: ?>
+                                    <option disabled>No active schedules listed</option>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-warning w-100 fw-bold shadow-sm" <?= ($showtimes_result->num_rows == 0) ? 'disabled' : '' ?>>
+                            Proceed to Seat Selection
+                        </button>
+                    </form>
                 </div>
 
             </div>
@@ -118,7 +149,7 @@ if (!$movie) {
         </div>
     </section>
 
-    <footer class="bg-dark text-white text-center py-3">
+    <footer class="bg-dark text-white text-center py-3 mt-5">
         <p class="mb-0">© Finals Movie Booking System</p>
     </footer>
 

@@ -1,5 +1,3 @@
-
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,7 +9,6 @@
 </head>
 <body>
 
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-lg">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="index1.php">
@@ -32,7 +29,6 @@
         </div>
     </nav>
 
-    <!-- Date bar -->
     <div class="bg-secondary text-white py-2 shadow-lg">
         <div class="container d-flex justify-content-between">
             <span id="date"></span>
@@ -49,15 +45,13 @@
         updateDate();
     </script>
 
-    <!-- Page header -->
     <section class="bg-warning text-center p-3 shadow-lg">
         <div class="container py-3">
-            <h1 class="display-5 fw-bold">Add New Movie</h1>
-            <p class="fw-semibold mt-2 mb-0">Fill in the details below to add a movie to the system.</p>
+            <h1 class="display-5 fw-bold">Add New Movie & Showtime</h1>
+            <p class="fw-semibold mt-2 mb-0">Fill in the details below to add a movie and its setup times to the system.</p>
         </div>
     </section>
 
-    <!-- Form -->
     <section class="py-4 bg-white flex-grow-1">
         <div class="container">
 
@@ -69,7 +63,7 @@
                 <form action="" method="post" enctype="multipart/form-data">
 
                     <div class="row mb-3">
-                        <h1 class="text-center">Add Movie</h1>
+                        <h1 class="text-center">Add Movie & Showtime</h1>
                     </div>
 
                     <div class="row mb-3">
@@ -120,6 +114,22 @@
                         </div>
                     </div>
 
+                    <div class="row mb-3">
+                        <h5 class="text-warning">Showtime Settings</h5>
+                        <div class="col-md-4">
+                            <label>Show Date</label>
+                            <input type="date" name="show_date" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Show Time</label>
+                            <input type="time" name="show_time" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Theater ID</label>
+                            <input type="number" name="theater_id" class="form-control" placeholder="e.g., 1" required>
+                        </div>
+                    </div>
+
                     <div class="row mt-3">
                         <div class="col text-center">
                             <img src="" alt="" id="preview" width="200" height="280" class="img-thumbnail">
@@ -129,7 +139,7 @@
 
                     <div class="row mt-4">
                         <div class="col text-center">
-                            <input type="submit" name="btn_add" value="Add Movie" class="btn btn-warning fw-bold w-75">
+                            <input type="submit" name="btn_add" value="Add Movie & Showtime" class="btn btn-warning fw-bold w-75">
                         </div>
                     </div>
 
@@ -153,6 +163,7 @@
     </script>
 </body>
 </html>
+
 <?php
 require_once "dbconnection.php";
 
@@ -162,44 +173,53 @@ if (isset($_POST['btn_add'])) {
     $duration = $_POST['movie_duration'];
     $release_date = $_POST['movie_release_date'];
     $description = $_POST['movie_description'];
+    
+    // Capturing new showtime fields
+    $show_date = $_POST['show_date'];
+    $show_time = $_POST['show_time'];
+    $theater_id = $_POST['theater_id'];
 
     $poster_path = "";
 
     if (!empty($_FILES['movie_poster']['name'])) {
-
         if (!is_dir("posters")) {
             mkdir("posters", 0777, true);
         }
-
         $poster_path = "posters/" . basename($_FILES['movie_poster']['name']);
-
-        move_uploaded_file(
-            $_FILES['movie_poster']['tmp_name'],
-            $poster_path
-        );
+        move_uploaded_file($_FILES['movie_poster']['tmp_name'], $poster_path);
     }
 
-    $insertsql = "INSERT INTO movie
-                  (title, genre, duration, release_date, description, movie_poster)
-                  VALUES
-                  ('$title', '$genre', '$duration', '$release_date', '$description', '$poster_path')";
+    // Step 1: Insert into Movie Table
+    $insertsql = "INSERT INTO movie (title, genre, duration, release_date, description, movie_poster)
+                  VALUES ('$title', '$genre', '$duration', '$release_date', '$description', '$poster_path')";
 
-    $result = $conn->query($insertsql);
+    if ($conn->query($insertsql)) {
+        // Step 2: Grab the generated auto-increment movie_id
+        $new_movie_id = $conn->insert_id;
 
-    if ($result) {
-        ?>
-        <script>
-            Swal.fire({
-                title: "Movie Added!",
-                text: "The movie has been added successfully.",
-                icon: "success",
-                showConfirmButton: false,
-                timer: 1500
-            }).then(() => {
-                window.location.href = "adminadd.php?success=added";
-            });
-        </script>
-        <?php
+        // Step 3: Insert into Showtime Table using $new_movie_id
+        $showtimesql = "INSERT INTO showtime (movie_id, theater_id, show_date, show_time)
+                        VALUES ('$new_movie_id', '$theater_id', '$show_date', '$show_time')";
+        
+        $showtime_result = $conn->query($showtimesql);
+
+        if ($showtime_result) {
+            ?>
+            <script>
+                Swal.fire({
+                    title: "Success!",
+                    text: "Movie and Showtime have been configured successfully.",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    window.location.href = "adminadd.php?success=added";
+                });
+            </script>
+            <?php
+        } else {
+            echo "Movie added, but Showtime setup failed: " . $conn->error;
+        }
     } else {
         echo "Database Error: " . $conn->error;
     }
