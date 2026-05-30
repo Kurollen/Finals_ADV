@@ -1,7 +1,7 @@
 <?php
 require_once "dbconnection.php";
 
-// Handle delete
+
 if (isset($_GET['delete'])) {
     $delete_id = intval($_GET['delete']);
     $conn->query("DELETE FROM movie WHERE movie_id = $delete_id");

@@ -174,7 +174,7 @@ if (isset($_POST['btn_add'])) {
     $release_date = $_POST['movie_release_date'];
     $description = $_POST['movie_description'];
     
-    // Capturing new showtime fields
+    
     $show_date = $_POST['show_date'];
     $show_time = $_POST['show_time'];
     $theater_id = $_POST['theater_id'];
@@ -189,15 +189,15 @@ if (isset($_POST['btn_add'])) {
         move_uploaded_file($_FILES['movie_poster']['tmp_name'], $poster_path);
     }
 
-    // Step 1: Insert into Movie Table
+   
     $insertsql = "INSERT INTO movie (title, genre, duration, release_date, description, movie_poster)
                   VALUES ('$title', '$genre', '$duration', '$release_date', '$description', '$poster_path')";
 
     if ($conn->query($insertsql)) {
-        // Step 2: Grab the generated auto-increment movie_id
+        
         $new_movie_id = $conn->insert_id;
 
-        // Step 3: Insert into Showtime Table using $new_movie_id
+
         $showtimesql = "INSERT INTO showtime (movie_id, theater_id, show_date, show_time)
                         VALUES ('$new_movie_id', '$theater_id', '$show_date', '$show_time')";
         

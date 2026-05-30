@@ -1,23 +1,23 @@
 <?php
 require_once "dbconnection.php";
 
-// Fetch movies and theaters for dropdowns before HTML renders
+
 $movies_result = $conn->query("SELECT movie_id, title FROM movie ORDER BY title ASC");
 $theaters_result = $conn->query("SELECT theater_id, theater_name, capacity FROM theater ORDER BY theater_name ASC");
 
-// Process form submission
+
 if (isset($_POST['btn_add_showtime'])) {
     $movie_id = intval($_POST['movie_id']);
     $theater_id = intval($_POST['theater_id']);
     $show_date = $_POST['show_date'];
     $show_time = $_POST['show_time'];
 
-    // Dynamically grab capacity from chosen theater to set default available seats
+    
     $capacity_query = $conn->query("SELECT capacity FROM theater WHERE theater_id = $theater_id");
     $theater_data = $capacity_query->fetch_assoc();
     $available_seats = $theater_data['capacity'] ?? 0;
 
-    // Insert ONLY into the showtime table (Prevents movie duplication)
+
     $insertsql = "INSERT INTO showtime (movie_id, theater_id, show_date, show_time, available_seats)
                   VALUES ('$movie_id', '$theater_id', '$show_date', '$show_time', '$available_seats')";
 

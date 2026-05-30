@@ -3,7 +3,7 @@ require_once "dbconnection.php";
 
 $movie_id = intval($_GET['movie_id'] ?? 0);
 
-// 1. Fetch Movie Details
+
 $result = $conn->query("SELECT * FROM movie WHERE movie_id = $movie_id");
 $movie = $result->fetch_assoc();
 
@@ -12,7 +12,7 @@ if (!$movie) {
     exit;
 }
 
-// 2. NEW: Fetch available showtimes for this specific movie, along with theater info
+
 $showtime_query = "SELECT s.showtime_id, s.show_date, s.show_time, t.theater_name 
                    FROM showtime s 
                    JOIN theater t ON s.theater_id = t.theater_id 
@@ -124,7 +124,6 @@ $showtimes_result = $conn->query($showtime_query);
                                 
                                 <?php if ($showtimes_result && $showtimes_result->num_rows > 0): ?>
                                     <?php while ($showtime = $showtimes_result->fetch_assoc()): 
-                                        // Cleanly formatting date and time representations for better UI readability
                                         $formatted_date = date("M d, Y (D)", strtotime($showtime['show_date']));
                                         $formatted_time = date("h:i A", strtotime($showtime['show_time']));
                                     ?>
