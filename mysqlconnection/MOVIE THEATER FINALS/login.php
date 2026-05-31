@@ -183,6 +183,8 @@ if (isset($_POST['sub'])){
     $roles = $fieldname["roles"];
     $fullname = $fieldname["full_name"];
     $id = $fieldname["user_id"];
+    $_SESSION["username"] = $fieldname["username"];
+    $_SESSION["full_name"] = $fullname;
     // //session variable
     // $_SESSION["user_type"] = $usertype;
     // $_SESSION["fullname"] = $firstname." ".$lastname;
