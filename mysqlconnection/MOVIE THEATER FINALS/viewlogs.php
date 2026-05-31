@@ -105,8 +105,8 @@ $result = $conn -> query($displaysql);
 
 if ($result ->num_rows > 0) {
 ?>
-            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-                <div class="card-body p-0">
+            <div class="card shadow-lg border-0 rounded-4 w-100">
+                <div class="table-responsive">
                     <table class="table table-dark table-striped table-hover m-0 align-middle">
                         <thead class="table-secondary text-uppercase fs-7">
                             <tr>
@@ -139,6 +139,7 @@ else {
                 </div>
             </div>
         </div>
+     </div>
     </section>
 
     <footer class="bg-dark text-white text-center py-3 mt-5">

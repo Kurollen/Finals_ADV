@@ -2,38 +2,31 @@
 session_start();
 require_once "dbconnection.php";
 
-// Fallback safety gate checking for valid incoming target variables
 $movie_id = intval($_GET['movie_id'] ?? 0);
 if ($movie_id === 0) {
     header("Location: adminview.php");
     exit;
 }
 
-// Fetch the targeted movie title for contextual page header rendering
 $movie_stmt = $conn->query("SELECT title FROM movie WHERE movie_id = $movie_id");
 $movie_details = $movie_stmt->fetch_assoc();
 $movie_title = $movie_details['title'] ?? 'Unknown Movie';
 
-// Setup default dynamic base JOIN query looking up data tables 
-$displaysql = "SELECT b.booking_id, u.full_name, s.show_date, s.show_time, b.ticket_quantity, b.total_price 
+$displaysql = "SELECT b.booking_id, u.full_name, s.show_date, s.show_time, b.num_tickets, b.seat_id, b.booking_date
                FROM booking b
                JOIN user u ON b.user_id = u.user_id
                JOIN showtime s ON b.showtime_id = s.showtime_id
                WHERE s.movie_id = $movie_id";
 
-// Handle targeted administrative search inputs
 if (isset($_POST['btnsearch'])) {
     $searchinput = trim($_POST["searchinput"]);
 
     if (!empty($searchinput)) {
         $searchinput = $conn->real_escape_string($searchinput);
-        
-        // Append context filters cleanly to look up items safely
         $displaysql .= " AND (u.full_name LIKE '%$searchinput%' 
                         OR s.show_date LIKE '%$searchinput%' 
                         OR b.booking_id LIKE '%$searchinput%')";
 
-        // Check if user session variable exists before inserting admin panel audit tracking records
         if (isset($_SESSION["user_id"])) {
             $logssql = "INSERT INTO logs (user_id, action, datetime) 
                         VALUES ('".$_SESSION["user_id"]."', 'Searched movie ($movie_id) bookings for: $searchinput', NOW())";
@@ -43,6 +36,8 @@ if (isset($_POST['btnsearch'])) {
 }
 
 $result = $conn->query($displaysql);
+
+$ticket_price = 350.00;
 ?>
 <!doctype html>
 <html lang="en">
@@ -85,7 +80,7 @@ $result = $conn->query($displaysql);
     <section class="bg-warning text-center p-3 shadow-lg">
         <div class="container py-3">
             <h1 class="display-5 fw-bold">Movie Bookings Overview</h1>
-            <p class="fw-semibold mt-2 mb-0">Currently viewing sales reports and active reservations for: <span class="text-dark border-bottom border-dark"><?= htmlspecialchars($movie_title) ?></span></p>
+            <p class="fw-semibold mt-2 mb-0">Currently viewing bookings for: <span class="text-dark border-bottom border-dark"><?= htmlspecialchars($movie_title) ?></span></p>
         </div>
     </section>
 
@@ -110,28 +105,35 @@ $result = $conn->query($displaysql);
             </div>
 
             <?php if ($result && $result->num_rows > 0): ?>
-                <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-                    <div class="card-body p-0">
+                <div class="card shadow-lg border-0 rounded-4 w-100">
+                    <div class="table-responsive">                    
+                        <div class="card-body p-0">
                         <table class="table table-dark table-striped table-hover m-0 align-middle">
                             <thead class="table-secondary text-uppercase fs-7">
                                 <tr>
                                     <th class="ps-4 py-3">Booking ID</th>
                                     <th class="py-3">Customer Name</th>
+                                    <th class="py-3">Booking Date</th>
                                     <th class="py-3">Show Date</th>
                                     <th class="py-3">Show Time</th>
-                                    <th class="py-3">Seats Reserved</th>
-                                    <th class="pe-4 py-3 text-end">Total Revenue Paid</th>
+                                    <th class="py-3">Seats</th>
+                                    <th class="py-3">Tickets</th>
+                                    <th class="pe-4 py-3 text-end">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($result as $row): ?>
+                                <?php foreach ($result as $row): 
+                                    $total = $row['num_tickets'] * $ticket_price;
+                                ?>
                                     <tr>
                                         <td class="ps-4 fw-semibold text-warning">#<?= $row['booking_id'] ?></td>
                                         <td><?= htmlspecialchars($row['full_name']) ?></td>
+                                        <td><?= date("M d, Y", strtotime($row['booking_date'])) ?></td>
                                         <td><?= date("M d, Y", strtotime($row['show_date'])) ?></td>
                                         <td><?= date("g:i A", strtotime($row['show_time'])) ?></td>
-                                        <td><span class="badge bg-secondary"><?= $row['ticket_quantity'] ?> Ticket(s)</span></td>
-                                        <td class="pe-4 text-end text-success fw-bold">PHP <?= number_format($row['total_price'], 2) ?></td>
+                                        <td><span class="badge bg-warning text-dark"><?= htmlspecialchars($row['seat_id']) ?></span></td>
+                                        <td><span class="badge bg-secondary"><?= $row['num_tickets'] ?> Ticket(s)</span></td>
+                                        <td class="pe-4 text-end text-success fw-bold">PHP <?= number_format($total, 2) ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -140,7 +142,7 @@ $result = $conn->query($displaysql);
                 </div>
             <?php else: ?>
                 <div class="p-5 text-center bg-dark text-muted rounded-4">
-                    <p class="fs-4 mb-0">No booking records found matching this movie profile context.</p>
+                    <p class="fs-4 mb-0">No booking records found for this movie.</p>
                 </div>
             <?php endif; ?>
 
