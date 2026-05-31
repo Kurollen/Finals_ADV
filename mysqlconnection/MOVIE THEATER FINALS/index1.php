@@ -38,7 +38,7 @@ $movies = $result->fetch_all(MYSQLI_ASSOC);
                         <a class="nav-link text-light" href="booknow.php">Book Now</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" href="nowshowing.php">Now Showing</a>
+                        <a class="nav-link text-light" href="index1.php">Now Showing</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-light" href="register.php">Register/Login</a>

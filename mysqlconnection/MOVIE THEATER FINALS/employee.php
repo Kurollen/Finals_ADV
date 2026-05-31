@@ -39,7 +39,7 @@ $movies = $result->fetch_all(MYSQLI_ASSOC);
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link text-light" href="cinemas.php">Cinemas</a></li>
                 <li class="nav-item"><a class="nav-link text-light" href="booknow.php">Book Now</a></li>
-                <li class="nav-item"><a class="nav-link text-light" href="nowshowing.php">Now Showing</a></li>
+                <li class="nav-item"><a class="nav-link text-light" href="index1.php">Now Showing</a></li>
                 <li class="nav-item"><a class="nav-link text-light" href="register.php">Register/Login</a></li>
             </ul>
         </div>
@@ -49,7 +49,7 @@ $movies = $result->fetch_all(MYSQLI_ASSOC);
 <div class="bg-secondary text-white py-2 shadow-lg">
     <div class="container d-flex justify-content-between">
         <span id="date"></span>
-        <span class="badge bg-danger">Employee Panel</span>
+        <span class="badge bg-success">Employee Panel</span>
     </div>
 </div>
 
@@ -91,7 +91,6 @@ $movies = $result->fetch_all(MYSQLI_ASSOC);
                 </div>
 
                 <div class="card-actions">
-                    <a href="adminview.php?id=<?= $movie['movie_id'] ?>" class="btn btn-outline-secondary btn-sm m-2">View</a>
                     <a href="addshowtime.php" class="btn btn-outline-warning btn-sm">Add a Showtime</a>
                     <button class="btn btn-outline-danger btn-sm m-2"
                             onclick="confirmDelete(<?= $movie['movie_id'] ?>, '<?= htmlspecialchars(addslashes($movie['title'])) ?>')">
