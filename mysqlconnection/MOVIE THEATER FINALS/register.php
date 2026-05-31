@@ -16,7 +16,6 @@
         <div class="container">
 
             <a class="navbar-brand d-flex align-items-center" href="index1.php">
-                <img src="" alt="logo" width="45" class="me-2">
                 Appdev Movie Booking System
             </a>
 
@@ -30,10 +29,6 @@
 
                     <li class="nav-item">
                         <a class="nav-link text-light" href="cinemas.php">Cinemas</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="booknow.php">Book Now</a>
                     </li>
 
                     <li class="nav-item">

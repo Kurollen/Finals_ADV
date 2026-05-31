@@ -16,7 +16,6 @@ session_start();
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-lg">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="index1.php">
-                <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/University_of_Santo_Tomas_seal.svg" alt="logo" width="45" class="me-2">
                 Appdev Movie Booking System
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
@@ -25,7 +24,6 @@ session_start();
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link text-light" href="cinemas.php">Cinemas</a></li>
-                    <li class="nav-item"><a class="nav-link text-light" href="booknow.php">Book Now</a></li>
                     <li class="nav-item"><a class="nav-link text-light" href="index1.php">Now Showing</a></li>
                     <li class="nav-item"><a class="nav-link text-light" href="register.php">Register/Login</a></li>
                 </ul>

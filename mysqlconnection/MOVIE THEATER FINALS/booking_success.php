@@ -33,7 +33,6 @@ session_start();
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-lg">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="index1.php">
-                <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/University_of_Santo_Tomas_seal.svg" alt="logo" width="45" class="me-2">
                 Appdev Movie Booking System
             </a>
         </div>
@@ -42,7 +41,6 @@ session_start();
     <div class="bg-secondary text-white py-2 shadow-lg">
         <div class="container d-flex justify-content-between">
             <span id="date"></span>
-            <span class="badge bg-success fw-bold">Success Ticket Issue</span>
         </div>
     </div>
 

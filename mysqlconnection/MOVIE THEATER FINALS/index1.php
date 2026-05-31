@@ -21,7 +21,6 @@ $movies = $result->fetch_all(MYSQLI_ASSOC);
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-lg">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="index1.php">
-                <img src="" alt="logo" width="45" class="me-2">
                 Appdev Movie Booking System
             </a>
 
@@ -33,9 +32,6 @@ $movies = $result->fetch_all(MYSQLI_ASSOC);
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link text-light" href="cinemas.php">Cinemas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="booknow.php">Book Now</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-light" href="index1.php">Now Showing</a>
