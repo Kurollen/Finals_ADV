@@ -196,7 +196,11 @@ if (isset($_POST['sub'])){
 
     //transfer to dashboard based on usertype
     if ($roles   == "admin") {
-        header("location: admindview.php"); 
+        ?>
+            <script>
+                window.location.href = "adminview.php";
+            </script>
+        <?php
     } elseif ($roles == "employee") {
         ?>
             <script>

@@ -49,13 +49,13 @@ $movies = $result->fetch_all(MYSQLI_ASSOC);
 <div class="bg-secondary text-white py-2 shadow-lg">
     <div class="container d-flex justify-content-between">
         <span id="date"></span>
-        <span class="badge bg-danger">Admin Panel</span>
+        <span class="badge bg-danger">Employee Panel</span>
     </div>
 </div>
 
 <section class="bg-warning text-center p-3 shadow-lg">
     <div class="container py-3">
-        <h1 class="display-5 fw-bold">Admin | Manage Movies</h1>
+        <h1 class="display-5 fw-bold">Employee | Manage Movies</h1>
         <p class="fw-semibold mt-2 mb-0">Add, edit, and remove all movies in the system.</p>
     </div>
 </section>
